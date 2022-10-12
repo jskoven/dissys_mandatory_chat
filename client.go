@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 
-	gRPC_template "github.com/jskoven/gRPC_template/chat"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -22,7 +21,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	c := gRPC_template.NewChatServiceClient(conn)
+	c := dissys_mandatory_chat.NewChatServiceClient(conn)
 
 	for {
 		Scanner := bufio.NewScanner(os.Stdin)
@@ -34,7 +33,7 @@ func main() {
 		}
 
 		//Message struct from proto file is created and used here, which is then sent to server.
-		message := gRPC_template.Message{
+		message := dissys_mandatory_chat.Message{
 			MessageToBeSent: textToSend,
 		}
 

@@ -1,6 +1,6 @@
 syntax = "proto3";
-option go_package = "https://github.com/jskoven/gRPC_template";
-package gRPC_template;
+option go_package = "https://github.com/jskoven/dissys_mandatory_chat";
+package dissys_mandatory_chat;
 
 //Message struct that carries information
 message Message {
