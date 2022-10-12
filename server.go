@@ -15,12 +15,14 @@ func main() {
 		log.Fatalf("failed to listen on port 9000: %t", err)
 	}
 
+	//Server struct
 	s := gRPC_template.Server{}
 
+	//grpc server command
 	grpcSever := grpc.NewServer()
 
+	//Starting server
 	gRPC_template.RegisterChatServiceServer(grpcSever, &s)
-
 	if err := grpcSever.Serve(lis); err != nil {
 		log.Fatalf("Failed")
 	}

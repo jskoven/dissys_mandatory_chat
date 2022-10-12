@@ -3,7 +3,6 @@ module github.com/jskoven/gRPC_template
 go 1.19
 
 require (
-	github.com/jskoven/gRPC_template v0.0.0-20221005141600-9125640b8355
 	golang.org/x/net v0.0.0-20221002022538-bcab6841153b
 	google.golang.org/grpc v1.49.0
 	google.golang.org/protobuf v1.28.1

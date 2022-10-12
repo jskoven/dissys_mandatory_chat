@@ -2,13 +2,14 @@ syntax = "proto3";
 option go_package = "https://github.com/jskoven/gRPC_template";
 package gRPC_template;
 
+//Message struct that carries information
 message Message {
-    string body = 1;
-    string timeNow = 2;
+    string messageToBeSent = 1;
 }
 
+//Chatservice that defines the ReceiveMessage service
 service ChatService{
-    rpc sayHello(Message) returns (Message){}
+    rpc ReceiveMessage(Message) returns (Message){}
 }
 
 /*Proto compile command:*/
