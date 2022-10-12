@@ -2,9 +2,9 @@ package main
 
 import (
 	"bufio"
+	"fmt"
 	"log"
 	"os"
-	"time"
 
 	gRPC_template "github.com/jskoven/gRPC_template/chat"
 	"golang.org/x/net/context"
@@ -13,7 +13,9 @@ import (
 
 func main() {
 	var conn *grpc.ClientConn
-	conn, err := grpc.Dial("192.168.43.169:9000", grpc.WithInsecure())
+	//If connection to other computer, set up a hotspot from phone and connect to it.
+	//Then find your IP and insert it before the port below. As is, it runs on localHost
+	conn, err := grpc.Dial(":9000", grpc.WithInsecure())
 
 	if err != nil {
 		log.Fatalf("could not connect: %s", err)
@@ -27,25 +29,23 @@ func main() {
 		Scanner.Scan()
 		textToSend := Scanner.Text()
 		if textToSend == "exit" {
+			fmt.Println("##- Exiting chat service -##")
 			break
 		}
 
+		//Message struct from proto file is created and used here, which is then sent to server.
 		message := gRPC_template.Message{
-			Body:    textToSend,
-			TimeNow: time.Now().String(),
+			MessageToBeSent: textToSend,
 		}
 
-		response, err := c.SayHello(context.Background(), &message)
+		//Since ServerDef.ReceiveMessage has a return value that is the answer to the message
+		//we simple define response as the return value of the function:
+		response, err := c.ReceiveMessage(context.Background(), &message)
 		if err != nil {
-			log.Fatalf("Error when calling sayHello: %s", err)
+			log.Fatalf("Error when calling ReceiveMessage: %s", err)
 		}
 
-		log.Printf("Response from server: %s", response.Body)
-		log.Printf("Time on server is: %s", response.TimeNow)
-		timeIntime, err := time.Parse("", response.TimeNow)
-		if err != nil {
-			log.Printf("error in parsing time: %s", err)
-		}
-		log.Printf("Time parsed is: ", timeIntime)
+		log.Printf("Response from server: %s", response.MessageToBeSent)
+
 	}
 }
