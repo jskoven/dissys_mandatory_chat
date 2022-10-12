@@ -6,13 +6,14 @@ package dissys_mandatory_chat;
 message Message {
     string messageToBeSent = 1;
     string clientUsername = 2;
+
 }
 
 //Chatservice that defines the ReceiveMessage service
 service ChatService{
-    //rpc ReceiveMessage(Message) returns (Message){}
-    rpc SendMessage(Message){}
-    rpc ReceiveMessage() returns ([]string){}
+   // rpc ReceiveMessageOld(Message) returns (Message){}
+    rpc SendMessage(Message) returns (Message){}
+    rpc ReceiveMessage(Message) returns (Message){}
 }
 
 /*Proto compile command:*/

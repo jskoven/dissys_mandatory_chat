@@ -42,10 +42,10 @@ func main() {
 			MessageToBeSent: textToSend,
 			ClientUsername:  userName,
 		}
-
+		c.SendMessage(&message)
 		//Since ServerDef.ReceiveMessage has a return value that is the answer to the message
 		//we simple define response as the return value of the function:
-		response, err := c.ReceiveMessage(context.Background(), &message)
+		response, err := c.ReceiveMessage(context.Background())
 		if err != nil {
 			log.Fatalf("Error when calling ReceiveMessage: %s", err)
 		}

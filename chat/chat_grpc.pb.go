@@ -18,6 +18,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type ChatServiceClient interface {
+	// rpc ReceiveMessageOld(Message) returns (Message){}
+	SendMessage(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
 	ReceiveMessage(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error)
 }
 
@@ -27,6 +29,15 @@ type chatServiceClient struct {
 
 func NewChatServiceClient(cc grpc.ClientConnInterface) ChatServiceClient {
 	return &chatServiceClient{cc}
+}
+
+func (c *chatServiceClient) SendMessage(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
+	out := new(Message)
+	err := c.cc.Invoke(ctx, "/dissys_mandatory_chat.ChatService/SendMessage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *chatServiceClient) ReceiveMessage(ctx context.Context, in *Message, opts ...grpc.CallOption) (*Message, error) {
@@ -42,6 +53,8 @@ func (c *chatServiceClient) ReceiveMessage(ctx context.Context, in *Message, opt
 // All implementations must embed UnimplementedChatServiceServer
 // for forward compatibility
 type ChatServiceServer interface {
+	// rpc ReceiveMessageOld(Message) returns (Message){}
+	SendMessage(context.Context, *Message) (*Message, error)
 	ReceiveMessage(context.Context, *Message) (*Message, error)
 	mustEmbedUnimplementedChatServiceServer()
 }
@@ -50,6 +63,9 @@ type ChatServiceServer interface {
 type UnimplementedChatServiceServer struct {
 }
 
+func (UnimplementedChatServiceServer) SendMessage(context.Context, *Message) (*Message, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendMessage not implemented")
+}
 func (UnimplementedChatServiceServer) ReceiveMessage(context.Context, *Message) (*Message, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ReceiveMessage not implemented")
 }
@@ -64,6 +80,24 @@ type UnsafeChatServiceServer interface {
 
 func RegisterChatServiceServer(s grpc.ServiceRegistrar, srv ChatServiceServer) {
 	s.RegisterService(&ChatService_ServiceDesc, srv)
+}
+
+func _ChatService_SendMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Message)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ChatServiceServer).SendMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/dissys_mandatory_chat.ChatService/SendMessage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ChatServiceServer).SendMessage(ctx, req.(*Message))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _ChatService_ReceiveMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -91,6 +125,10 @@ var ChatService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "dissys_mandatory_chat.ChatService",
 	HandlerType: (*ChatServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "SendMessage",
+			Handler:    _ChatService_SendMessage_Handler,
+		},
 		{
 			MethodName: "ReceiveMessage",
 			Handler:    _ChatService_ReceiveMessage_Handler,
