@@ -5,6 +5,7 @@ package dissys_mandatory_chat;
 //Message struct that carries information
 message Message {
     string messageToBeSent = 1;
+    string clientUsername = 2;
 }
 
 //Chatservice that defines the ReceiveMessage service

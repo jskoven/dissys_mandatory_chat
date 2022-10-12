@@ -1,4 +1,4 @@
-package gRPC_template
+package dissys_mandatory_chat
 
 import (
 	"bufio"
@@ -15,7 +15,8 @@ type Server struct {
 }
 
 func (s *Server) ReceiveMessage(ctx context.Context, message *Message) (*Message, error) {
-	log.Printf("## Received message body from client: %s ##", message.MessageToBeSent)
+	//log.Printf("## Received message body from client: %s ##", message.MessageToBeSent)
+	log.Printf("%s: %s", message.ClientUsername, message.MessageToBeSent)
 	//Scanner only used so as to be able to send back messages to client from server.
 	Scanner := bufio.NewScanner(os.Stdin)
 	log.Printf("## What do you wish to respond with? ##")

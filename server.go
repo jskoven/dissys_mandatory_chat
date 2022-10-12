@@ -4,7 +4,7 @@ import (
 	"log"
 	"net"
 
-	gRPC_template "github.com/jskoven/gRPC_template/chat"
+	dissys_mandatory_chat "github.com/jskoven/dissys_mandatory_chat/chat"
 	"google.golang.org/grpc"
 )
 
@@ -16,13 +16,13 @@ func main() {
 	}
 
 	//Server struct
-	s := gRPC_template.Server{}
+	s := dissys_mandatory_chat.Server{}
 
 	//grpc server command
 	grpcSever := grpc.NewServer()
 
 	//Starting server
-	gRPC_template.RegisterChatServiceServer(grpcSever, &s)
+	dissys_mandatory_chat.RegisterChatServiceServer(grpcSever, &s)
 	if err := grpcSever.Serve(lis); err != nil {
 		log.Fatalf("Failed")
 	}

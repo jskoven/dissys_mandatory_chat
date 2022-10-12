@@ -6,11 +6,17 @@ import (
 	"log"
 	"os"
 
+	dissys_mandatory_chat "github.com/jskoven/dissys_mandatory_chat/chat"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
 
 func main() {
+	Scanner := bufio.NewScanner(os.Stdin)
+	fmt.Println("Welcome to chat9000!")
+	fmt.Println("What username do you wish to use?")
+	Scanner.Scan()
+	userName := Scanner.Text()
 	var conn *grpc.ClientConn
 	//If connection to other computer, set up a hotspot from phone and connect to it.
 	//Then find your IP and insert it before the port below. As is, it runs on localHost
@@ -24,7 +30,6 @@ func main() {
 	c := dissys_mandatory_chat.NewChatServiceClient(conn)
 
 	for {
-		Scanner := bufio.NewScanner(os.Stdin)
 		Scanner.Scan()
 		textToSend := Scanner.Text()
 		if textToSend == "exit" {
@@ -35,6 +40,7 @@ func main() {
 		//Message struct from proto file is created and used here, which is then sent to server.
 		message := dissys_mandatory_chat.Message{
 			MessageToBeSent: textToSend,
+			ClientUsername:  userName,
 		}
 
 		//Since ServerDef.ReceiveMessage has a return value that is the answer to the message

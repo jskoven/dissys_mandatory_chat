@@ -1,4 +1,4 @@
-module github.com/jskoven/gRPC_template
+module github.com/jskoven/dissys_mandatory_chat
 
 go 1.19
 
