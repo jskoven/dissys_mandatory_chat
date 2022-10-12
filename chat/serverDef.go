@@ -12,9 +12,10 @@ import (
 type Server struct {
 	//Must contain this, whatever it is
 	UnimplementedChatServiceServer
-	messages         []string
-	amountOfMessages int
 }
+
+var messages = make([]string, 0, 0)
+var amountOfMessages int = 0
 
 func (s *Server) ReceiveMessageOld(ctx context.Context, message *Message) (*Message, error) {
 	//log.Printf("## Received message body from client: %s ##", message.MessageToBeSent)
@@ -29,9 +30,9 @@ func (s *Server) ReceiveMessageOld(ctx context.Context, message *Message) (*Mess
 }
 
 func (s *Server) ReceiveMessage(ctx context.Context) (*[]string, error) {
-	return &s.messages, nil
+	return &messages, nil
 }
 
 func (s *Server) SendMessage(ctx context.Context, message *Message) {
-	s.messages[s.amountOfMessages+1] = message.MessageToBeSent
+	messages = append(messages, message.MessageToBeSent)
 }

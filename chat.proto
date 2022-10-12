@@ -10,7 +10,9 @@ message Message {
 
 //Chatservice that defines the ReceiveMessage service
 service ChatService{
-    rpc ReceiveMessage(Message) returns (Message){}
+    //rpc ReceiveMessage(Message) returns (Message){}
+    rpc SendMessage(Message){}
+    rpc ReceiveMessage() returns ([]string){}
 }
 
 /*Proto compile command:*/
