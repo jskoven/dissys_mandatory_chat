@@ -4,7 +4,7 @@ import (
 	"log"
 	"net"
 
-	gRPC_testing "github.com/jskoven/gRPC_testing/chat"
+	gRPC_testing "github.com/jskoven/gRPC_template/chat"
 	"google.golang.org/grpc"
 )
 
