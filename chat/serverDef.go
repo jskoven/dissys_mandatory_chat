@@ -28,7 +28,7 @@ func (s *Server) ReceiveMessageOld(ctx context.Context, message *Message) (*Mess
 	return &Message{MessageToBeSent: textToSend}, nil
 } */
 
-func (s *Server) ReceiveMessage(ctx context.Context) (*[]string, error) {
+func (s *Server) ReceiveMessage(ctx context.Context, message *Message) (*[]string, error) {
 	log.Printf("hello")
 	return &messages, nil
 }
