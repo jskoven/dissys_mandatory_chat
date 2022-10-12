@@ -1,4 +1,4 @@
-package gRPC_testing
+package gRPC_template
 
 import (
 	"bufio"

@@ -1,4 +1,4 @@
-module github.com/jskoven/gRPC_testing
+module github.com/jskoven/gRPC_template
 
 go 1.19
 
