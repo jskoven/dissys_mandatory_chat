@@ -1,6 +1,6 @@
 syntax = "proto3";
 option go_package = "https://github.com/jskoven/gRPC_template";
-package chat;
+package gRPC_template;
 
 message Message {
     string body = 1;
@@ -13,3 +13,5 @@ service ChatService{
 
 /*Proto compile command:*/
 /* protoc --go_out=. --go_opt=paths=source_relative --go-grpc_out=. --go-grpc_opt=paths=source_relative .\chat.proto */
+/*The 2 .pb files will be created outside the chat directory, they need to be moved into
+the chat directory and replace anything it prompts*/

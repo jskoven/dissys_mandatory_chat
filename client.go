@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	gRPC_testing "github.com/jskoven/gRPC_testing/chat"
+	gRPC_template "github.com/jskoven/gRPC_template/chat"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -20,7 +20,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	c := gRPC_testing.NewChatServiceClient(conn)
+	c := gRPC_template.NewChatServiceClient(conn)
 
 	for {
 		Scanner := bufio.NewScanner(os.Stdin)
@@ -30,7 +30,7 @@ func main() {
 			break
 		}
 
-		message := gRPC_testing.Message{
+		message := gRPC_template.Message{
 			Body:    textToSend,
 			TimeNow: time.Now().String(),
 		}
